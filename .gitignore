@@ -2,6 +2,7 @@
 __pycache__/
 *.py[codz]
 *$py.class
+*.pyc
 
 # C extensions
 *.so
@@ -216,3 +217,11 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+# Airflow virtual environment
+airflow-env/
+
+# Airflow runtime files
+airflow/logs/
+airflow/airflow.db
+airflow/airflow.cfg
+airflow/webserver_config.py
