@@ -16,7 +16,7 @@ downloads/
 eggs/
 .eggs/
 lib/
-lib64/
+÷lib64/
 parts/
 sdist/
 var/
@@ -225,3 +225,9 @@ airflow/logs/
 airflow/airflow.db
 airflow/airflow.cfg
 airflow/webserver_config.py
+# Kafka / Spark streaming generated files
+kafka/streaming_output/
+kafka/checkpoints/
+
+# macOS
+.DS_Store
