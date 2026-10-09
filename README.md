@@ -1,29 +1,58 @@
-# Credit-Card-Data-Engineering
-End-to-end data engineering pipeline using PySpark, Databricks, Delta Lake, Airflow, Kafka and Power BI.
+# Credit Card Data Engineering | Batch & Streaming
 
-## Real-Time Streaming Pipeline — Kafka & Spark Structured Streaming
+End-to-end data engineering portfolio project using **Databricks, PySpark, Delta Lake, SQL, Airflow, Kafka, Spark Structured Streaming, and Power BI**.
 
-In addition to the batch data pipeline, a real-time streaming pipeline was implemented to simulate and process incoming credit-card transactions.
+## Architecture
 
-### Streaming Architecture
+**Batch analytics:** Raw CSV → Databricks Bronze → PySpark Silver → Delta Gold (star schema) → Power BI
 
-Python Producer → Apache Kafka → Spark Structured Streaming → Parquet Output
+**Streaming prototype (separate):** Python Producer → Kafka → Spark Structured Streaming → Parquet + Checkpoint
 
-### Implementation
+> The **499,996 historical transactions** were processed in the batch pipeline. Kafka processes separately generated mock events.
 
-- Deployed Apache Kafka locally using Docker in KRaft mode.
-- Created the `credit_card_transactions` Kafka topic with 3 partitions.
-- Developed a Python producer to simulate incoming credit-card transaction events.
-- Published transaction events as JSON using `user_id` as the Kafka message key.
-- Used Spark Structured Streaming to continuously consume events from Kafka.
-- Parsed JSON messages using `from_json()` with a predefined Spark schema.
-- Applied streaming transformations including timestamp conversion, fraud flag creation, and high-value transaction identification.
-- Persisted processed streaming data in Parquet format.
-- Implemented checkpointing for streaming query recovery and progress tracking.
-- Validated record counts, schema, and transformation results.
+## Data Pipeline
 
-### Streaming Components
+- **Bronze:** Ingest transaction, customer, and card CSV datasets.
+- **Silver:** Clean, standardize, derive attributes, and validate records.
+- **Gold:** Build `fact_transactions` and four dimensions: `dim_customers`, `dim_cards`, `dim_date`, `dim_merchant`.
+- **Power BI:** Connect the Gold tables through a star-schema semantic model with four active dimension-to-fact relationships.
 
-- `kafka/docker-compose.yml` — Apache Kafka Docker configuration
-- `kafka/producer/transaction_producer.py` — Python Kafka producer
-- `kafka/spark_streaming/transaction_stream.py` — Spark Structured Streaming pipeline
+## Power BI Dashboards
+
+**Transaction Overview:** Transaction volume and value, trends, payment methods, merchant channels, card types, and interactive slicers.
+
+![Transaction Overview](powerbi/screenshots/transaction_overview.png)
+
+**Fraud & Customer Risk:** Fraud volume and value, affected customers, trends, customer segments, card-type risk, and interactive slicers.
+
+![Fraud and Customer Risk](powerbi/screenshots/fraud_customer_analysis.png)
+
+Report: [`powerbi/Credit_Card_Analytics.pbix`](powerbi/Credit_Card_Analytics.pbix) — **publish only if its embedded data is safe to share**.
+
+## Validated Results
+
+| Metric | Result |
+| --- | ---: |
+| Transactions | **499,996** |
+| Transaction amount | **$24,806,889.57** |
+| Average transaction | **$49.61** |
+| Fraud transactions | **465** |
+| Fraud rate | **0.09%** |
+| Fraud amount | **$51,273.54** |
+| Affected customers | **25** |
+
+All seven metrics were reconciled between Databricks SQL and Power BI.
+
+## Streaming & Orchestration
+
+- **Kafka:** Docker-based broker, `credit_card_transactions` topic with **3 partitions**, Python JSON event producer.
+- **Spark Structured Streaming:** Parse and transform events; write Parquet output with checkpointing.
+- **Airflow:** Practiced DAG dependencies and execution in GitHub Codespaces; these DAGs are **not** claimed to trigger the Databricks batch pipeline.
+
+## Project Files
+
+- `kafka/` — Kafka setup, producer, and Spark streaming code
+- `airflow/` — Airflow DAGs
+- `powerbi/` — PBIX report and dashboard screenshots
+
+**Data-sharing note:** Check the PBIX and repository history for customer names, addresses, card numbers, CVVs, or other restricted data before making the repository public.
