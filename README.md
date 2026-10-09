@@ -21,11 +21,11 @@ End-to-end data engineering portfolio project using **Databricks, PySpark, Delta
 
 **Transaction Overview:** Transaction volume and value, trends, payment methods, merchant channels, card types, and interactive slicers.
 
-![Transaction Overview](powerbi/screenshots/transaction_overview.png)
+![Transaction Overview](powerbi/Screenshots/Page1.png)
 
 **Fraud & Customer Risk:** Fraud volume and value, affected customers, trends, customer segments, card-type risk, and interactive slicers.
 
-![Fraud and Customer Risk](powerbi/screenshots/fraud_customer_analysis.png)
+![Fraud and Customer Risk](powerbi/Screenshots/Page2.png)
 
 Report: [`powerbi/Credit_Card_Analytics.pbix`](powerbi/Credit_Card_Analytics.pbix) — **publish only if its embedded data is safe to share**.
 
